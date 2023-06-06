@@ -3,7 +3,7 @@ const postcss = require('postcss')
 const plugin = require('./')
 
 async function run (input, output, options = { }) {
-  let result = await postcss([plugin(options)]).process(input, { from: undefined })
+  const result = await postcss([plugin(options)]).process(input, { from: undefined })
   expect(result.css).toEqual(output)
   expect(result.warnings()).toHaveLength(0)
 }
@@ -42,13 +42,13 @@ it('should support commas between selectors', async () => {
 
 it('should warn on empty path', async () => {
   const input = '[psc=] { color: black; }'
-  let result = await postcss([plugin()]).process(input, { from: undefined })
+  const result = await postcss([plugin()]).process(input, { from: undefined })
   expect(result.warnings()).toHaveLength(1)
 })
 
 it('should warn on trailing separator', async () => {
   const input = '[psc=Folder1/Folder2/] { color: black; }'
-  let result = await postcss([plugin()]).process(input, { from: undefined })
+  const result = await postcss([plugin()]).process(input, { from: undefined })
   expect(result.warnings()).toHaveLength(1)
 })
 
@@ -59,7 +59,6 @@ it('should provide Style Class list to callback function', async () => {
     expect(styleClasses).toEqual(['Folder1/class1', 'Folder2/class2'])
   }
   await postcss([plugin({ cb })]).process(input, { from: undefined })
-
 })
 
 it('should only provide unique Style Classes to callback function', async () => {
@@ -70,5 +69,4 @@ it('should only provide unique Style Classes to callback function', async () => 
     expect(styleClasses).toEqual(['Folder1/class1', 'Folder2/class2'])
   }
   await postcss([plugin({ cb })]).process(input, { from: undefined })
-
 })
