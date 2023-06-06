@@ -33,7 +33,7 @@ module.exports = (options = {}) => {
 
         styleClasses.push(classPath)
 
-        return `.psc-${classPath.replaceAll(separator, '/\\')}`
+        return `.psc-${classPath.replaceAll(separator, '\\/')}`
       })
 
       const replacement = rule.clone({})
