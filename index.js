@@ -1,30 +1,54 @@
 /**
  * @type {import('postcss').PluginCreator}
  */
-module.exports = (opts = {}) => {
-  // Work with options here
+
+module.exports = (options = {}) => {
+
+  const { separator, cb } = Object.assign({}, {
+    separator: '/',
+    cb: (styleClasses) => {}
+  }, options)
+  
+  let styleClasses = []
 
   return {
     postcssPlugin: 'postcss-perspective-style-class',
-    /*
-    Root (root, postcss) {
-      // Transform CSS AST here
-    }
-    */
 
-    /*
-    Declaration (decl, postcss) {
-      // The faster way to find Declaration node
-    }
-    */
+    Rule (rule, { postcss, result }) {
 
-    /*
-    Declaration: {
-      color: (decl, postcss) {
-        // The fastest way find Declaration node if you know property name
-      }
-    }
-    */
+      if (!rule.selector.includes('[psc=')) { return }
+
+      // Match entire attributes.
+      const newSelector = rule.selector.replace(/(?=\[psc=).*?]/gm, (match) => {
+
+        // Determine attribute contents, and replace entire attribute.
+        let classPath = match.match(/(?<=\[psc=)(.*?)(?=])/gm)[0]
+
+        if (!classPath) { 
+          rule.warn(result, 'empty Style Class path') 
+          return
+        }
+        if (classPath.slice(-separator.length) == separator) { 
+          rule.warn(result, 'trailing separator found') 
+          return
+        }
+
+        styleClasses.push(classPath)
+
+        return `.psc-${classPath.replaceAll(separator, '/\\')}`
+
+      })
+      
+      const replacement = rule.clone({})
+      replacement.selector = newSelector
+      rule.replaceWith(replacement)
+    },
+
+    OnceExit () {
+      styleClasses = Array.from(new Set(styleClasses))
+      cb(styleClasses)
+    },
+
   }
 }
 
