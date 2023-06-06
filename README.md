@@ -24,15 +24,15 @@
 will be processed to:
 
 ```css
-.psc-Folder1/\class { 
+.psc-Folder1\/class { 
   color: black; 
 }
 
-.psc-Folder1/\Folder2/\class { 
+.psc-Folder1\/Folder2\/class { 
   color: black; 
 }
 
-.psc-Folder1/\class1.otherClass1 .otherClass2 { 
+.psc-Folder1\/class1.otherClass1 .otherClass2 { 
   color: black; 
 }
 ```
@@ -77,7 +77,7 @@ postcss([ require('postcss-perspective-style-class')({ separator: '-' }) ])
 }
 
 /* Output */
-.psc-Folder1/\class { 
+.psc-Folder1\/class { 
   color: black;
 }
 ```
