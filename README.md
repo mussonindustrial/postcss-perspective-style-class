@@ -5,15 +5,15 @@
 [PostCSS]: https://github.com/postcss/postcss
 
 ```css
-[psc=Folder1/class] { 
+[psc="Folder1/class"] { 
   color: black; 
 }
 
-[psc=Folder1/Folder2/class] { 
+[psc="Folder1/Folder2/class"] { 
   color: black; 
 }
 
-[psc=Folder1/class1].otherClass1 .otherClass2 { 
+[psc="Folder1/class1"].otherClass1 .otherClass2 { 
   color: black; 
 }
 
@@ -72,7 +72,7 @@ postcss([ require('postcss-perspective-style-class')({ separator: '-' }) ])
 ```
 ```css
 /* Input */
-[psc=Folder1-class] {
+[psc="Folder1-class"] {
   color: black;
 }
 
@@ -91,8 +91,8 @@ const cb = (styleClasses) => console.log(styleClasses)
 postcss([ require('postcss-perspective-style-class')({ cb }) ])
 ```
 ```css
-[psc=Folder1/class1].otherClass, 
-[psc=Folder2/class2] { 
+[psc="Folder1/class1"].otherClass, 
+[psc="Folder2/class2"] { 
   color: black; 
 }
 ```
